@@ -37,4 +37,11 @@ self.addEventListener('activate', function(e) {
     );
   });
 
-  
+  self.addEventListener('fetch', function (e) {
+    console.log('fetch request : ' + e.request.url)
+    e.respondWith(
+      caches.match(e.request).then(function (request) {
+        return request || fetch(e.request)
+      })
+    )
+  })
